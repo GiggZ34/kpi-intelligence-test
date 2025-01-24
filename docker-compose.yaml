@@ -1,0 +1,58 @@
+services:
+  back:
+    build:
+      context: .
+      dockerfile: Dockerfile.back
+    image: ${APP}-back
+    container_name: ${APP}-back
+    env_file:
+      - .env
+    networks:
+      - sit-network
+    ports:
+      - "${BACK_PORT}:8000"
+    restart: unless-stopped
+    volumes:
+      - ./back:/app
+    depends_on:
+      db:
+          condition: service_healthy
+  db:
+    image: postgres:16.6-alpine3.20
+    container_name: ${APP}-db
+    volumes:
+      - sit-data:/var/lib/postgresql/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "sh -c 'pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_NAME}'"]
+      interval: 5s
+      timeout: 5s
+      retries: 3
+    env_file:
+      - .env
+    ports:
+      - ${POSTGRES_PORT}:5432
+    networks:
+      - sit-network
+  front:
+    build:
+      context: .
+      dockerfile: Dockerfile.front
+    image: ${APP}-front
+    container_name: ${APP}-front
+    ports:
+      - "${FRONT_PORT}:4200"
+    restart: unless-stopped
+    volumes:
+      - "./front:/app"
+    networks:
+      - sit-network
+
+networks:
+  sit-network:
+    external: true
+
+volumes:
+  sit-data:
+  cache:
+    driver: local

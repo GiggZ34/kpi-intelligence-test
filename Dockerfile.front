@@ -1,0 +1,14 @@
+FROM node:23-alpine3.20
+
+WORKDIR /app
+
+RUN apk update && apk update && apk add --no-cache zsh curl git
+
+RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+
+RUN npm install -g @angular/cli@17.3.11 --unsafe-perm
+
+COPY ./scripts/front.entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh
+
+ENTRYPOINT ["/bin/sh", "/usr/local/bin/entrypoint.sh"]
