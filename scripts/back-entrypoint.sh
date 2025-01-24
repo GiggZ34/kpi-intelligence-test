@@ -17,6 +17,7 @@ case "${run}" in
         ;;
     *)
         python manage.py migrate --noinput
+        python manage.py init_data
         python manage.py collectstatic --noinput
         python manage.py runserver 0.0.0.0:8000
         ;;
