@@ -1,9 +1,8 @@
 import json
 from datetime import datetime
 
+from api.models import City, Company, Establishment, Project, ProjectManagement, Representative
 from django.core.management.base import BaseCommand
-
-from api.models import Establishment, City, ProjectManagement, Company, Representative, Project
 
 
 def printProgressBar(
@@ -45,12 +44,14 @@ class Command(BaseCommand):
 		representatives = {}
 		project_managements = {}
 
-		f = open('dataset.json')
+		f = open("dataset.json")
 		objects = json.load(f)
 		nb_objects = len(objects)
 
 		for i, obj in enumerate(objects):
-			printProgressBar(i + 1, nb_objects, prefix="\t\t↳ Progress:", suffix="Complete", length=50)
+			printProgressBar(
+				i + 1, nb_objects, prefix="\t\t↳ Progress:", suffix="Complete", length=50
+			)
 			city_label = obj.pop("ville")
 			if city_label in cities:
 				city = cities[city_label]
@@ -70,7 +71,7 @@ class Command(BaseCommand):
 					label=establishment_label,
 					longitude=establishment_longitude,
 					latitude=establishment_latitude,
-					city=city
+					city=city,
 				)
 				establishments[establishment_code] = establishment
 
@@ -80,7 +81,9 @@ class Command(BaseCommand):
 				if project_management_label in project_managements:
 					project_management = project_managements[project_management_label]
 				else:
-					project_management = ProjectManagement.objects.create(label=project_management_label)
+					project_management = ProjectManagement.objects.create(
+						label=project_management_label
+					)
 					project_managements[project_management_label] = project_management
 
 			company = None
@@ -101,7 +104,13 @@ class Command(BaseCommand):
 					representative = Representative.objects.create(label=representative_label)
 					representatives[representative_label] = representative
 
-			Project.objects.create(**obj, establishment=establishment, project_management=project_management, representative=representative, company=company)
+			Project.objects.create(
+				**obj,
+				establishment=establishment,
+				project_management=project_management,
+				representative=representative,
+				company=company,
+			)
 
 		print(f"Finished => {datetime.now() - start}")
 

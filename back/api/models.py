@@ -4,7 +4,7 @@ from api.constants import DevolutionMode, ProjectStatus
 
 
 class City(models.Model):
-    label = models.CharField()
+    label = models.CharField(primary_key=True, db_index=True, unique=True)
 
     class Meta:
         db_table = "model_city"
@@ -16,7 +16,9 @@ class Establishment(models.Model):
     label = models.CharField()
     longitude = models.FloatField(null=True)
     latitude = models.FloatField(null=True)
-    city = models.ForeignKey("City", on_delete=models.CASCADE, related_name="establishment")
+    city = models.ForeignKey(
+        "City", on_delete=models.CASCADE, related_name="establishment"
+    )
 
     class Meta:
         db_table = "model_establishment"
@@ -56,13 +58,26 @@ class Project(models.Model):
     annee_d_individualisation = models.CharField(max_length=4, null=True)
     annee_de_livraison = models.CharField(max_length=4, null=True)
     nombre_de_lots = models.IntegerField(null=True)
-    mode_de_devolution = models.CharField(choices=DevolutionMode.choices, default=DevolutionMode.NC)
+    mode_de_devolution = models.CharField(
+        choices=DevolutionMode.choices, default=DevolutionMode.NC
+    )
     ppi = models.CharField()
-    etat_d_avancement = models.CharField(choices=ProjectStatus.choices)
-    establishment = models.ForeignKey("Establishment", on_delete=models.CASCADE, null=True, related_name="project")
-    representative = models.ForeignKey("Representative", on_delete=models.SET_NULL, null=True, related_name="project")
-    project_management = models.ForeignKey("ProjectManagement", on_delete=models.SET_NULL, null=True, related_name="project")
-    company = models.ForeignKey("Company", on_delete=models.SET_NULL, null=True, related_name="project")
+    etat_d_avancement = models.CharField(choices=ProjectStatus.choices, db_index=True)
+    establishment = models.ForeignKey(
+        "Establishment", on_delete=models.CASCADE, null=True, related_name="project"
+    )
+    representative = models.ForeignKey(
+        "Representative", on_delete=models.SET_NULL, null=True, related_name="project"
+    )
+    project_management = models.ForeignKey(
+        "ProjectManagement",
+        on_delete=models.SET_NULL,
+        null=True,
+        related_name="project",
+    )
+    company = models.ForeignKey(
+        "Company", on_delete=models.SET_NULL, null=True, related_name="project"
+    )
 
     class Meta:
         db_table = "model_project"

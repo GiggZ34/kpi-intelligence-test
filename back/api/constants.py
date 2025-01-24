@@ -8,12 +8,11 @@ class DevolutionMode(models.TextChoices):
 
 
 class ProjectStatus(models.TextChoices):
-    "Opération livrée"
-    "En Chantier"
-    "Etude de maîtrise d'œuvre"
-    "Suspendue"
-    "Sélection mandataire"
-    "Sélection entreprise"
-    "Etudes et diagnostics"
-    "Abandonné"
-
+    STUDIES_DIAGNOSTICS = "Etudes et diagnostics"
+    REPRESENTATIVE_SELECTION = "Sélection mandataire"
+    COMPANY_SELECTION = "Sélection entreprise"
+    PROJECT_MANAGEMENT_STUDY = "Etude de maîtrise d'œuvre"
+    UNDER_CONSTRUCTION = "En Chantier"
+    OPERATION_DELIVRED = "Opération livrée"
+    SUSPENDED = "Suspendue"
+    CANCCELED = "Abandonné"
