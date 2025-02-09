@@ -1,0 +1,6 @@
+[submodule "back"]
+	path = back
+	url = https://github.com/GiggZ34/back-kpi-intelligence-test.git
+[submodule "front"]
+	path = front
+	url = https://github.com/GiggZ34/front-kpi-intelligence-test.git
