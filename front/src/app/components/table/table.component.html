@@ -1,0 +1,52 @@
+<section>
+  <div class="p-5">
+    <div class="overflow-x-auto shadow-md sm:rounded-lg">
+      @if (attribute) {
+        <com-list-filter [attribute]="attribute"></com-list-filter>
+      }
+      <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+        <tr>
+          @for (column of columns; track column) {
+            <th scope="col" class="px-6 py-3">
+              {{ column.title }}
+            </th>
+          }
+        </tr>
+        </thead>
+        <tbody>
+          @for (row of rows; track $index) {
+            <tr
+              class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
+              @for (column of columns; track column) {
+                @switch (column.type) {
+                  @case ("string") {
+                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white max-w-[200px] truncate">
+                      <span class="block overflow-hidden whitespace-nowrap text-ellipsis">
+                        {{ fieldInObject(row, column) ?? "Non renseigné" }}
+                      </span>
+                    </th>
+                  }
+                  @case ("number") {
+                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                      {{ fieldInObject(row, column) ?? "Non renseigné" }}
+                    </th>
+                  }
+                  @case ("action") {
+                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                      <div class="flex items-center space-x-4">
+                        @for (action of column.actions ?? []; track $index) {
+                          <fa-icon [title]="action.title" [icon]="action.icon" (click)="action.action(row)" class="text-2xl cursor-pointer transition-colors duration-200 hover:text-secondary"></fa-icon>
+                        }
+                      </div>
+                    </th>
+                  }
+                }
+              }
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>

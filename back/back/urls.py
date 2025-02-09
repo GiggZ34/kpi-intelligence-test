@@ -27,21 +27,21 @@ from drf_spectacular.views import (
 )
 
 urlpatterns = [
-	path("admin/", admin.site.urls),
+	path("admin", admin.site.urls),
 	# Swagger
-	path("schema/", SpectacularAPIView.as_view(), name="schema"),
+	path("api/v1/schema", SpectacularAPIView.as_view(), name="schema"),
 	# Optional UI:
 	path(
-		"schema/swagger-ui/",
+		"api/v1/schema/swagger-ui",
 		SpectacularSwaggerView.as_view(url_name="schema"),
 		name="swagger-ui",
 	),
 	path(
-		"schema/redoc/",
+		"api/v1/schema/redoc/",
 		SpectacularRedocView.as_view(url_name="schema"),
 		name="redoc",
 	),
-	path("api/", include("api.urls")),
+	path("api/v1/", include("api.urls")),
 ] + staticfiles_urlpatterns()
 
 if settings.DEBUG:

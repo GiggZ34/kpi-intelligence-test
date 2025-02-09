@@ -2,7 +2,7 @@ FROM node:23-alpine3.20
 
 WORKDIR /app
 
-RUN apk update && apk update && apk add --no-cache zsh curl git
+RUN apk update && apk add --no-cache zsh curl git envsubst
 
 RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 

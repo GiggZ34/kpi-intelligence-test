@@ -34,6 +34,21 @@ services:
       - ${POSTGRES_PORT}:5432
     networks:
       - sit-network
+  serach-ms:
+    build:
+      context: .
+      dockerfile: Dockerfile.search-ms
+    image: ${APP}-search-ms
+    container_name: ${APP}-search-ms
+    env_file:
+      - .env
+    networks:
+      - sit-network
+    ports:
+      - "${SEARCH_MS_PORT}:50051"
+    restart: unless-stopped
+    volumes:
+      - ./search-ms:/app
   front:
     build:
       context: .
@@ -43,6 +58,8 @@ services:
     ports:
       - "${FRONT_PORT}:4200"
     restart: unless-stopped
+    env_file:
+      - .env
     volumes:
       - "./front:/app"
     networks:

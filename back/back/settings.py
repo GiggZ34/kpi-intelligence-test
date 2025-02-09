@@ -28,6 +28,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 
+CORS_ORIGIN_ALLOW_ALL = True
 
 # Application definition
 
@@ -41,6 +42,7 @@ INSTALLED_APPS = [
 	"rest_framework",
 	"rest_framework.authtoken",
 	"django_filters",
+	"corsheaders",
 	"drf_spectacular",
 	"drf_spectacular_sidecar",
 	"silk",
@@ -49,6 +51,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+	"corsheaders.middleware.CorsMiddleware",
 	"django.middleware.security.SecurityMiddleware",
 	"django.contrib.sessions.middleware.SessionMiddleware",
 	"django.middleware.common.CommonMiddleware",
@@ -63,7 +66,7 @@ ROOT_URLCONF = "back.urls"
 
 REST_FRAMEWORK = {
 	"DEFAULT_PAGINATION_CLASS": "utils.common.PageNumberPagination",
-	"PAGE_SIZE": 50,
+	"PAGE_SIZE": 500,
 	"DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
 	"DEFAULT_FILTER_BACKENDS": ["django_filters.rest_framework.DjangoFilterBackend"],
 	"DEFAULT_AUTHENTICATION_CLASSES": [],

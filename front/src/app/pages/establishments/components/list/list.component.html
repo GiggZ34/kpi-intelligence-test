@@ -1,0 +1,11 @@
+<div>
+  <div class="map-ctn">
+    <com-map [points_geojson]="establishments_geojson" [focused_geojson]="focused_geojson"></com-map>
+  </div>
+  <div class="floating-cnt">
+    <com-list-in-card [cardData]="cardData" [rows]="data" (nextPage)="nextPage()" [loading]="loading"
+              [disableScroll]="lastPage" [focused]="establishmentFocused">
+      <com-list-filter [attribute]="filterAttribute"></com-list-filter>
+    </com-list-in-card>
+  </div>
+</div>

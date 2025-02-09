@@ -1,0 +1,21 @@
+FROM python:3.13.1-alpine3.20
+
+WORKDIR /app
+
+RUN apk update && apk add --no-cache \
+    geos geos-dev gcc musl-dev python3-dev \
+    zsh curl git \
+    postgresql-dev gcc musl-dev linux-headers
+
+RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" -- -t robbyrussell
+
+RUN pip install --upgrade pip
+
+COPY ./search-ms/requirements.txt /tmp/
+
+RUN pip install --no-cache-dir -r /tmp/requirements.txt
+
+COPY ./scripts/search-ms-entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh
+
+ENTRYPOINT ["/bin/sh", "/usr/local/bin/entrypoint.sh", "-s"]

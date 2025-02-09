@@ -16,6 +16,7 @@ case "${run}" in
         sleep infinity
         ;;
     *)
+        envsubst < /app/src/assets/environment.js.template > /app/src/assets/environment.js
         npm install
         ng serve --host 0.0.0.0
         ;;

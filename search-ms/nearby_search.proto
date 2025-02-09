@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+service nearbySearchService {
+    rpc GetPointsInPolygon(PolygonRequest) returns (ZoneResponse);
+}
+
+message Point {
+    double latitude = 1;
+    double longitude = 2;
+}
+
+message PolygonRequest {
+    repeated Point vertices = 1;
+}
+
+message ZoneResponse {
+    repeated Point points = 1;
+}

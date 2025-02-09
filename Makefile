@@ -3,8 +3,11 @@
 build:
 	docker compose build
 
-run: network
+run_dev: network
 	docker compose up -d
+
+run_pprod: network
+	docker compose -f docker-compose.pprd.yaml up -d
 
 network:
 	docker network create -d bridge sit-network || true
@@ -41,6 +44,6 @@ format:
 	docker compose exec back ruff format
 	docker compose exec back ruff check --fix
 
-.PHONY: build run test shell logs db clean fclean network format
-.SILENT: build run test shell logs db clean fclean network format
-.DEFAULT_GOAL := run
+.PHONY: build run_dev run_pprod test shell logs db clean fclean network format
+.SILENT: build run_dev run_pprod test shell logs db clean fclean network format
+.DEFAULT_GOAL := run_dev
