@@ -9,6 +9,7 @@ ___
 ## Installation
 **Requirement: Docker** - _if you don't have docker, download it [here](https://www.docker.com/products/docker-desktop/)_
 
+    - clone the project with `git clone --recurse-submodules https://github.com/GiggZ34/kpi-intelligence-test.git` to retrieve the associated submodules
     - Create `.env` file in the project's root directory. For this purpose, you have a predefined `.env.example` file.
     - With makefile:
         - run `make` for a dev mode or `make run_pprod` for a production-like mode.
